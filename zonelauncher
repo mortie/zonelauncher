@@ -26,7 +26,7 @@ killer = subprocess.Popen(["./killwin", str(Buttons.KILL), str(Conf.KEYBOARD)])
 
 # Graceful exit
 def onexit(signum=None, frame=None):
-    subprocess.call(["pkill", "killwin"])
+    subprocess.call(["pkill", "-9", "killwin"])
     sys.exit(0)
 signal.signal(signal.SIGINT, onexit)
 signal.signal(signal.SIGTERM, onexit)

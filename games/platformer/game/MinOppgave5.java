@@ -645,13 +645,16 @@ class Game extends JPanel implements KeyListener {
 		music = null;
 		gameEnded = false;
 
+		GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+		GraphicsDevice gd = ge.getDefaultScreenDevice();
+		gd.setFullScreenWindow(window);
+
 		this.window = window;
 		window.addKeyListener(this);
 		window.add(this);
 	}
 
 	public void addEntity(Entity e) {
-		System.out.println("adding "+e.identify());
 		e.game = this;
 		entities.add(e);
 		e.init();
@@ -870,10 +873,6 @@ class MinOppgave5 {
 		window.setExtendedState(JFrame.MAXIMIZED_BOTH);
 		window.setUndecorated(true);
 		window.setVisible(true);
-
-		GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
-		GraphicsDevice gd = ge.getDefaultScreenDevice();
-		gd.setFullScreenWindow(window);
 
 		Game game = new Game(window);
 		game.loadLevel(file);
