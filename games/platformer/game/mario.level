@@ -1,0 +1,126 @@
+audio mario.wav
+
+# Section 1
+platform -800 0 2200 30
+
+player -500 -50
+
+enemyWalker 200 -50 -1 5000
+
+platform 100 -100 20 20
+coin 105 -120
+platform 200 -100 100 20
+coin 215 -120
+coin 275 -120
+platform 240 -200 20 20
+coin 245 -220
+
+platform 400 -50 30 50
+platform 650 -100 30 100
+enemyWalker 680 -50 1
+platform 850 -100 30 100
+enemyWalker 880 -50 1
+enemyWalker 950 -50 -1
+platform 1170 -100 30 100
+platform 1200 -140 30 140
+platform 1350 -140 20 20
+coin 1355 -210
+
+# Section 2
+platform 1500 0 600 30
+
+platform 1800 -120 60 20
+coin 1825 -140
+
+platform 1860 -240 300 20
+
+# Section 3
+platform 2200 0 1950 30
+
+platform 2240 -260 110 20
+coin 2335 -280
+
+platform 2320 -120 20 20
+coin 2325 -140
+
+platform 2500 -120 40 20
+coin 2525 -140
+
+platform 2700 -120 20 20
+coin 2705 -140 20 20
+
+platform 2800 -120 20 20
+coin 2805 -140
+enemyJumper 2800 -160
+
+platform 2800 -220 20 20
+coin 2805 -240
+
+platform 2900 -120 20 20
+coin 2905 -140
+
+platform 3080 -120 20 20
+
+platform 3200 -240 60 20
+
+platform 3320 -240 80 20
+coin 3345 -260
+coin 3365 -260
+
+platform 3340 -120 40 20
+enemyWalker 3260 -50 -1
+enemyWalker 3300 -50 -1
+enemyWalker 3340 -50 -1
+enemyWalker 3380 -50 -1
+
+platform 3500 -30 30 30
+platform 3530 -60 30 60
+platform 3560 -90 30 90
+platform 3590 -120 30 120
+
+platform 3700 -120 30 120
+platform 3730 -90 30 90
+platform 3760 -60 30 60
+platform 3790 -30 30 30
+
+platform 4000 -30 30 30
+platform 4030 -60 30 60
+platform 4060 -90 30 90
+platform 4090 -120 30 120
+platform 4120 -120 30 120
+
+platform 4230 -120 30 120
+platform 4260 -120 30 120
+platform 4290 -90 30 90
+platform 4320 -60 30 60
+platform 4350 -30 30 30
+
+# Section 4
+platform 4230 0 1500 30
+
+platform 4520 -60 40 60
+
+platform 4660 -120 80 20
+coin 4705 -140
+
+platform 4900 -60 40 60
+
+platform 4940 -30 30 30
+platform 4970 -60 30 60
+platform 5000 -90 30 90
+platform 5030 -120 30 120
+platform 5060 -150 30 150
+platform 5060 -150 30 150
+platform 5090 -180 30 180
+platform 5120 -210 30 210
+platform 5150 -210 30 210
+
+victory 5400 -60
+coin 5410 -80
+coin 5410 -110
+coin 5410 -140
+coin 5410 -170
+coin 5410 -200
+coin 5410 -230
+coin 5410 -260
+coin 5410 -290

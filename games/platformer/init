@@ -1,0 +1,3 @@
+#!/bin/sh
+
+java MinOppgave5 mario.level

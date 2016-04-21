@@ -1,0 +1,177 @@
+#!/usr/bin/env python3
+
+import pygame
+import os
+import sys
+import subprocess
+import signal
+
+class Buttons:
+    LAUNCH = (pygame.K_RETURN,)
+    UP = (pygame.K_UP, pygame.K_w)
+    DOWN = (pygame.K_DOWN, pygame.K_s)
+    LEFT = (pygame.K_LEFT, pygame.K_a)
+    RIGHT = (pygame.K_RIGHT, pygame.K_d)
+    KILL = 53
+
+class Conf:
+    RESOLUTION = (1920, 1080)
+    GAMES_DIR = "games"
+    COLS = 2
+    ROWS = 2
+    KEYBOARD = 12
+
+# Spawn window killer
+killer = subprocess.Popen(["./killwin", str(Buttons.KILL), str(Conf.KEYBOARD)])
+
+# Graceful exit
+def onexit(signum=None, frame=None):
+    subprocess.call(["pkill", "killwin"])
+    sys.exit(0)
+signal.signal(signal.SIGINT, onexit)
+signal.signal(signal.SIGTERM, onexit)
+
+# Init pygame
+pygame.init()
+screen = pygame.display.set_mode(Conf.RESOLUTION)
+#pygame.display.toggle_fullscreen()
+
+# Fonts
+pygame.font.init()
+font = pygame.font.SysFont(None, 48)
+
+class Game:
+    width = 250
+    height = 250
+    wIcon = 150
+    hIcon = 150
+    wBorder = 190
+    hBorder = 190
+    process = None
+
+    colBorder = (255, 255, 255)
+    colBorderActive = (255, 0, 255)
+
+    def __init__(self, name):
+        self.name = name
+        self.basedir = Conf.GAMES_DIR+"/"+name
+        self.gamedir = self.basedir+"/game"
+        self.iconfile = self.basedir+"/icon.png"
+        self.initfile = "../init"
+        self.compilefile = "../compile"
+        self.icon = pygame.image.load(self.iconfile)
+        self.icon = pygame.transform.scale(self.icon, (self.wIcon, self.hIcon))
+        self.icon.convert()
+
+        self.compile()
+
+    def killProcess():
+        if Game.process != None:
+            Game.process.kill()
+
+    def compile(self):
+        home = os.getcwd()
+        os.chdir(self.gamedir)
+        subprocess.Popen(["sh", self.compilefile])
+        os.chdir(home)
+
+    def launch(self):
+        home = os.getcwd()
+        os.chdir(self.gamedir)
+        Game.killProcess()
+        Game.process = subprocess.Popen(["sh", self.initfile])
+        os.chdir(home)
+
+    def draw(self, screen, coords, active):
+
+        # Icon
+        iconCoords = (
+            coords[0] + ((self.width - self.wIcon) / 2),
+            coords[1] + ((self.height - self.hIcon) / 2)
+        )
+        screen.blit(self.icon, iconCoords)
+
+        # Border
+        borderOffX = (self.width - self.wBorder) / 2
+        borderOffY = (self.height - self.hBorder) / 2
+        borderCol = self.colBorderActive if active else self.colBorder
+
+        pygame.draw.lines(screen, borderCol, True, (
+            (
+                coords[0] + borderOffX,
+                coords[1] + borderOffY
+            ),
+            (
+                coords[0] - borderOffX + self.width,
+                coords[1] + borderOffY
+            ),
+            (
+                coords[0] - borderOffX + self.width,
+                coords[1] - borderOffY + self.height
+            ),
+            (
+                coords[0] + borderOffX,
+                coords[1] - borderOffY + self.height
+            )
+        ), 5)
+
+class App:
+    games = []
+
+    def __init__(self):
+        self.games = list(map(Game, sorted(os.listdir(Conf.GAMES_DIR))))
+        self.menu()
+
+    def menu(self):
+        cursor = 0
+        centerX = Conf.RESOLUTION[0] / 2
+        centerY = Conf.RESOLUTION[1] / 2
+        width = Conf.COLS * Game.width
+        height = Conf.ROWS * Game.height
+
+        offX = centerX - (width / 2)
+        offY = centerY - (height / 2)
+
+        while True:
+            x = 0
+            y = 0
+            i = 0
+            for game in self.games:
+                active = (cursor == i)
+                coords = (offX + x * Game.width, offY + y * Game.height)
+                game.draw(screen, coords, active)
+
+                x += 1
+                if x >= Conf.COLS:
+                    x = 0
+                    y += 1
+                i += 1
+
+            pygame.display.flip()
+
+            redraw = False
+            while not redraw:
+                evt = pygame.event.wait()
+                if evt.type == pygame.QUIT:
+                    onexit()
+                elif evt.type == pygame.KEYDOWN:
+                    prev = cursor
+                    if evt.key in Buttons.UP:
+                        cursor -= Conf.COLS
+                        redraw = True
+                    elif evt.key in Buttons.DOWN:
+                        cursor += Conf.COLS
+                        redraw = True
+                    elif evt.key in Buttons.LEFT:
+                        cursor -= 1
+                        redraw = True
+                    elif evt.key in Buttons.RIGHT:
+                        cursor += 1
+                        redraw = True
+                    elif evt.key in Buttons.LAUNCH:
+                        self.games[cursor].launch()
+                        redraw = True
+
+                    if cursor < 0 or cursor >= len(self.games):
+                        cursor = prev
+app = App()
