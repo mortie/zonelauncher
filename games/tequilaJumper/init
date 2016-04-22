@@ -1,3 +1,8 @@
 #!/bin/sh
 
-google-chrome-stable --app=FILE://$(pwd)/index.html --start-fullscreen
+for B in chromium, chromium-browser, google-chrome, google-chrome-stable; do
+	$B --app=FILE://$(pwd)/index.html --start-fullscreen
+	if [ $? = 0 ]; then
+		exit 0
+	fi
+done

@@ -3,6 +3,8 @@
 KEY="$1"
 INPUT="$2"
 
+echo "killing on key $KEY, input $INPUT"
+
 killactive()
 {
 	WIN=$(xdotool getwindowfocus)

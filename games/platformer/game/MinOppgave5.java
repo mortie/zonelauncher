@@ -29,7 +29,7 @@ import java.lang.Thread;
 class Key {
 	static int LEFT = 65;
 	static int RIGHT = 68;
-	static int JUMP = 32;
+	static int JUMP = 87;
 	static int RESTART = 10;
 }
 
@@ -708,6 +708,10 @@ class Game extends JPanel implements KeyListener {
 	@Override public void paintComponent(Graphics g) {
 		Graphics2D gfx = (Graphics2D)g;
 
+		// Clear
+		gfx.setColor(new Color(255, 255, 255));
+		gfx.fillRect(0, 0, this.getWidth(), this.getHeight());
+
 		resetGfx(gfx);
 		if (state == State.RUNNING) {
 			gfx.translate(camera.x, camera.y);
@@ -834,7 +838,6 @@ class Game extends JPanel implements KeyListener {
 	}
 
 	@Override public void keyPressed(KeyEvent e) {
-		System.out.println(e.getKeyCode());
 		if (pressedKeys.indexOf(e.getKeyCode()) == -1)
 			pressedKeys.add(e.getKeyCode());
 

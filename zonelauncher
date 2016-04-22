@@ -19,7 +19,7 @@ class Conf:
     GAMES_DIR = "games"
     COLS = 3
     ROWS = 2
-    KEYBOARD = 12
+    KEYBOARD = 13
 
 # Spawn window killer
 killer = subprocess.Popen(["./killwin", str(Buttons.KILL), str(Conf.KEYBOARD)])
