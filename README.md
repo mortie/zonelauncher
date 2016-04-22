@@ -7,3 +7,4 @@
 * xdotool
 * Google Chrome or Chromium (as google-chrome, google-chrome-stable, chromium,
   or chromium-browser in your $PATH)
+* unclutter

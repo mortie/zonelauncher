@@ -22,11 +22,14 @@ class Conf:
 
 # Spawn window killer
 killer = subprocess.Popen(["./killwin", str(Buttons.KILL)])
+unclutter = subprocess.Popen(["unclutter", "-root", "-idle", "0.01"])
 
 # Graceful exit
 def onexit(signum=None, frame=None):
-    subprocess.call(["pkill", "-9", "killwin"])
-    sys.exit(0)
+    if (signum == None):
+        unclutter.kill()
+        subprocess.call(["pkill", "-9", "killwin"])
+        sys.exit(0)
 signal.signal(signal.SIGINT, onexit)
 signal.signal(signal.SIGTERM, onexit)
 
