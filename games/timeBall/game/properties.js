@@ -8,9 +8,9 @@ var properties = {
 	'key': {
 		'up': 87,
 		'left': 65,
-		'down': 83,
+		'down': 32,
 		'right': 68,
-		'rewind': 32,
+		'rewind': 83,
 		'pause': 27,
 		'restart': 13,
 		'musicToggle': 77,

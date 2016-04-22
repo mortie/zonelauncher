@@ -68,7 +68,7 @@ class Pad(Entity):
     _height = 100
     distFromEdge = 20
     game = None
-    speed = 1
+    speed = 1.3
     _x = 0
     _y = 0
     edgeX = False
@@ -209,7 +209,7 @@ class Ball(Entity):
     vy = 1
     rad = 10
     game = None
-    speed = 0.7
+    speed = 1
 
     def __init__(self, game):
         self.width = self.rad * 2

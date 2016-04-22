@@ -1,7 +1,6 @@
 #!/bin/sh
 
 KEY="$1"
-INPUT="$2"
 
 echo "killing on key $KEY, input $INPUT"
 
@@ -20,6 +19,19 @@ getevts()
 	done
 }
 
-getevts \
-	| grep --line-buffered -i "key press *$KEY" \
-	| while read -r line; do killactive; done
+getkbds()
+{
+	xinput list | grep -i keyboard | sed 's/.*id=//' | cut -f1
+}
+
+killer()
+{
+INPUT="$1"
+	getevts \
+		| grep --line-buffered -i "key press *$KEY" \
+		| while read -r line; do killactive; done
+}
+
+for i in $(getkbds); do
+	killer "$i" &
+done

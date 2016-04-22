@@ -12,17 +12,16 @@ class Buttons:
     DOWN = (pygame.K_DOWN, pygame.K_s)
     LEFT = (pygame.K_LEFT, pygame.K_a)
     RIGHT = (pygame.K_RIGHT, pygame.K_d)
-    KILL = 53
+    KILL = 24
 
 class Conf:
     RESOLUTION = (1920, 1080)
     GAMES_DIR = "games"
     COLS = 3
     ROWS = 2
-    KEYBOARD = 13
 
 # Spawn window killer
-killer = subprocess.Popen(["./killwin", str(Buttons.KILL), str(Conf.KEYBOARD)])
+killer = subprocess.Popen(["./killwin", str(Buttons.KILL)])
 
 # Graceful exit
 def onexit(signum=None, frame=None):
@@ -34,7 +33,6 @@ signal.signal(signal.SIGTERM, onexit)
 # Init pygame
 pygame.init()
 screen = pygame.display.set_mode(Conf.RESOLUTION)
-pygame.display.toggle_fullscreen()
 
 # Fonts
 pygame.font.init()
