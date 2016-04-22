@@ -30,7 +30,7 @@ class Key {
 	static int LEFT = 65;
 	static int RIGHT = 68;
 	static int JUMP = 32;
-	static int RESTART = 82;
+	static int RESTART = 10;
 }
 
 class GraphicsUtils {
@@ -80,7 +80,7 @@ class GraphicsUtils {
 		gfx.setFont(new Font("Serif", Font.PLAIN, 20));
 		gfx.setColor(Color.BLACK);
 		gfx.drawString(
-			"Press R to play again.",
+			"Press Enter to play again.",
 			(window.getWidth() / 2) - ((int)bounds.getWidth() / 2),
 			(window.getHeight() / 2) + 60
 		);
@@ -605,6 +605,7 @@ class EnemyFlyer extends Enemy {
 @SuppressWarnings("serial")
 class Game extends JPanel implements KeyListener {
 	private static Clip playAudio(String filename) throws Exception {
+		System.out.println("loading "+filename);
 		File file = new File(filename);
 		AudioInputStream stream = AudioSystem.getAudioInputStream(file);
 		AudioFormat format = stream.getFormat();
@@ -613,6 +614,7 @@ class Game extends JPanel implements KeyListener {
 
 		clip.open(stream);
 		clip.start();
+		System.out.println("loaded "+filename);
 
 		return clip;
 	}
@@ -644,10 +646,6 @@ class Game extends JPanel implements KeyListener {
 		player = null;
 		music = null;
 		gameEnded = false;
-
-		GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
-		GraphicsDevice gd = ge.getDefaultScreenDevice();
-		gd.setFullScreenWindow(window);
 
 		this.window = window;
 		window.addKeyListener(this);
@@ -836,6 +834,7 @@ class Game extends JPanel implements KeyListener {
 	}
 
 	@Override public void keyPressed(KeyEvent e) {
+		System.out.println(e.getKeyCode());
 		if (pressedKeys.indexOf(e.getKeyCode()) == -1)
 			pressedKeys.add(e.getKeyCode());
 
@@ -873,6 +872,12 @@ class MinOppgave5 {
 		window.setExtendedState(JFrame.MAXIMIZED_BOTH);
 		window.setUndecorated(true);
 		window.setVisible(true);
+
+		GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+		GraphicsDevice gd = ge.getDefaultScreenDevice();
+		gd.setFullScreenWindow(window);
+
+		window.toFront();
 
 		Game game = new Game(window);
 		game.loadLevel(file);

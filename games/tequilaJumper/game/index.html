@@ -71,7 +71,7 @@
             var key_right=68;
             var key_jump=32;
             var key_pause=80;
-            var key_restart=82;
+            var key_restart=13;
             
             function testForMobile()
             {
@@ -680,7 +680,7 @@
                     gameCtx.fillText("Tap the page to retry.",gameArea.width/2,gameArea.height/2+100);
                 } else
                 {
-                    gameCtx.fillText("Press R to retry.",gameArea.width/2,gameArea.height/2+100);
+                    gameCtx.fillText("Press Enter to restart.",gameArea.width/2,gameArea.height/2+100);
                 }
                 window.clearInterval(updateLoop);
             }

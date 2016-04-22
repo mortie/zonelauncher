@@ -17,7 +17,7 @@ class Buttons:
 class Conf:
     RESOLUTION = (1920, 1080)
     GAMES_DIR = "games"
-    COLS = 2
+    COLS = 3
     ROWS = 2
     KEYBOARD = 12
 
@@ -34,23 +34,44 @@ signal.signal(signal.SIGTERM, onexit)
 # Init pygame
 pygame.init()
 screen = pygame.display.set_mode(Conf.RESOLUTION)
-#pygame.display.toggle_fullscreen()
+pygame.display.toggle_fullscreen()
 
 # Fonts
 pygame.font.init()
 font = pygame.font.SysFont(None, 48)
 
+class Img:
+    def __init__(self, path, scale=None):
+        self.img = pygame.image.load(path)
+        if scale != None:
+            self.img = pygame.transform.scale(self.img, scale)
+        self.img.convert()
+
+    def draw(self, screen, coords, center=True):
+        imgCoords = coords
+        if center == True:
+            x, y, width, height = self.img.get_rect()
+            imgCoords = (
+                coords[0] - (width / 2),
+                coords[1] - (height / 2)
+            )
+        screen.blit(self.img, imgCoords)
+
+
+class Assets:
+    LOGO = Img("assets/logo.png", (413, 117))
+
 class Game:
-    width = 250
-    height = 250
-    wIcon = 150
-    hIcon = 150
-    wBorder = 190
-    hBorder = 190
+    width = 450
+    height = 350
+    wIcon = 256
+    hIcon = 256
+    wBorder = 300
+    hBorder = 300
     process = None
 
-    colBorder = (255, 255, 255)
-    colBorderActive = (255, 0, 255)
+    colBorder = (240, 240, 240)
+    colBorderActive = (220, 220, 0)
 
     def __init__(self, name):
         self.name = name
@@ -59,9 +80,7 @@ class Game:
         self.iconfile = self.basedir+"/icon.png"
         self.initfile = "../init"
         self.compilefile = "../compile"
-        self.icon = pygame.image.load(self.iconfile)
-        self.icon = pygame.transform.scale(self.icon, (self.wIcon, self.hIcon))
-        self.icon.convert()
+        self.icon = Img(self.iconfile, (self.wIcon, self.hIcon))
 
         self.compile()
 
@@ -86,10 +105,10 @@ class Game:
 
         # Icon
         iconCoords = (
-            coords[0] + ((self.width - self.wIcon) / 2),
-            coords[1] + ((self.height - self.hIcon) / 2)
+            coords[0] + (self.width / 2),
+            coords[1] + (self.height / 2)
         )
-        screen.blit(self.icon, iconCoords)
+        self.icon.draw(screen, iconCoords)
 
         # Border
         borderOffX = (self.width - self.wBorder) / 2
@@ -133,6 +152,11 @@ class App:
         offY = centerY - (height / 2)
 
         while True:
+
+            # Set background
+            screen.fill((255, 255, 255))
+
+            # Draw games
             x = 0
             y = 0
             i = 0
@@ -146,6 +170,9 @@ class App:
                     x = 0
                     y += 1
                 i += 1
+
+            # Draw logo
+            Assets.LOGO.draw(screen, (centerX, 100))
 
             pygame.display.flip()
 

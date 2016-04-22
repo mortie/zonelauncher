@@ -5,13 +5,9 @@ INPUT="$2"
 
 killactive()
 {
-	WIN=$(xprop -root _NET_ACTIVE_WINDOW | awk '{ print $5 }')
+	WIN=$(xdotool getwindowfocus)
 	PID=$(xprop -id "$WIN" | grep '_NET_WM_PID' | awk '{ print $3 }')
 	kill "$PID"
-
-	# If you need more than 1 second to quit, sorry.
-	sleep 1
-	kill -9 "$PID" 2>&1 > /dev/null
 }
 
 getevts()
