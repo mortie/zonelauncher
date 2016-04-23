@@ -22,13 +22,14 @@ class Conf:
 
 # Spawn window killer
 killer = subprocess.Popen(["./killwin", str(Buttons.KILL)])
-unclutter = subprocess.Popen(["unclutter", "-root", "-idle", "0.01"])
+unclutter = subprocess.Popen(["unclutter", "-root", "-idle", "0.001"])
 
 # Graceful exit
 def onexit(signum=None, frame=None):
     if (signum == None):
-        unclutter.kill()
         subprocess.call(["pkill", "-9", "killwin"])
+        subprocess.call(["pkill", "xinput"])
+        unclutter.kill()
         sys.exit(0)
 signal.signal(signal.SIGINT, onexit)
 signal.signal(signal.SIGTERM, onexit)
@@ -39,7 +40,6 @@ screen = pygame.display.set_mode(Conf.RESOLUTION)
 
 # Fonts
 pygame.font.init()
-font = pygame.font.SysFont(None, 48)
 
 class Img:
     def __init__(self, path, scale=None):
@@ -64,7 +64,7 @@ class Assets:
 
 class Game:
     width = 450
-    height = 350
+    height = 400
     wIcon = 256
     hIcon = 256
     wBorder = 300
@@ -73,6 +73,8 @@ class Game:
 
     colBorder = (240, 240, 240)
     colBorderActive = (220, 220, 0)
+
+    nameFont = pygame.font.SysFont(None, 32)
 
     def __init__(self, name):
         self.name = name
@@ -135,6 +137,14 @@ class Game:
             )
         ), 5)
 
+        # Name
+        text = self.nameFont.render(self.name, 1, (0, 0, 0))
+        textCoords = (
+            coords[0] + (self.width / 2) - (text.get_width() / 2),
+            coords[1] + (self.height - 40)
+        )
+        screen.blit(text, textCoords)
+
 class App:
     games = []
 
@@ -150,7 +160,7 @@ class App:
         height = Conf.ROWS * Game.height
 
         offX = centerX - (width / 2)
-        offY = centerY - (height / 2)
+        offY = centerY - (height / 2) + 50
 
         while True:
 

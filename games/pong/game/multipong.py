@@ -23,7 +23,6 @@ pygame.mixer.init()
 # Pygame
 pygame.init()
 screen = pygame.display.set_mode((1920, 1080))
-pygame.display.toggle_fullscreen()
 
 # Font
 pygame.font.init()
@@ -43,8 +42,8 @@ def play():
 while True:
     loser = play()
 
-    screen.fill((0, 0, 0))
-    label = font.render("Player "+str(loser)+" lost!", 1, (255, 255, 255))
+    screen.fill((255, 255, 255))
+    label = font.render("Player "+str(loser)+" lost!", 1, (0, 0, 0))
     screen.blit(label, (100, 200))
     pygame.display.update()
     while True:

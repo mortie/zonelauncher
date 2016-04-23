@@ -73,7 +73,7 @@ class Pad(Entity):
     _y = 0
     edgeX = False
     edgeY = False
-    color = (255, 255, 255)
+    color = (0, 0, 0)
 
     @property
     def width(self):
@@ -221,7 +221,7 @@ class Ball(Entity):
     def draw(self, screen):
         draw.circle(
             screen,
-            (255, 255, 255),
+            (0, 0, 0),
             (int(self.x), int(self.y)),
             self.rad
         )
@@ -343,7 +343,7 @@ class Game:
         for entity in self.entities:
             entity.update()
 
-        self.screen.fill((0, 0, 0))
+        self.screen.fill((255, 255, 255))
         for entity in self.entities:
             entity.draw(self.screen)
 
